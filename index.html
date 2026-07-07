@@ -6,253 +6,358 @@
     <title>🧟‍♂️ GROKZOMBORG SLOTS v4.0</title>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Creepster&family=Press+Start+2P&display=swap');
-        body { margin:0; padding:0; background:#000; color:#0f0; font-family:'Press Start 2P', monospace; }
+        * { margin:0; padding:0; box-sizing:border-box; }
+        body { background:#000; color:#0f0; font-family:'Press Start 2P', monospace; }
         .glitch { color:#f00; animation:glitch 0.6s infinite; text-shadow:0 0 30px #f00, 0 0 60px #0f0; }
         @keyframes glitch { 0%{text-shadow:5px 5px #0f0,-5px -5px #f00} 50%{text-shadow:-5px 5px #f00,5px -5px #0f0} 100%{text-shadow:5px -5px #0f0,-5px 5px #f00} }
-        nav { background:#111; padding:15px; text-align:center; border-bottom:4px solid #0f0; position:sticky; top:0; z-index:100; }
-        nav a { color:#0f0; margin:0 20px; text-decoration:none; font-size:18px; transition:0.3s; }
+        nav { background:#111; padding:15px; text-align:center; border-bottom:4px solid #0f0; position:sticky; top:0; z-index:100; overflow-x:auto; }
+        nav a { color:#0f0; margin:0 10px; text-decoration:none; font-size:14px; transition:0.3s; display:inline-block; cursor:pointer; }
         nav a:hover { color:#f00; text-shadow:0 0 10px #f00; }
-        section { padding:80px 20px; max-width:1200px; margin:auto; }
+        section { padding:80px 20px; max-width:1200px; margin:auto; display:none; }
+        section.active { display:block; }
         .hero { text-align:center; background:linear-gradient(#300,#000); padding:100px 20px; }
-        .download-btn { background:#800; color:#0f0; padding:25px 70px; font-size:28px; border:6px solid #0f0; border-radius:12px; cursor:pointer; transition:0.3s; display:inline-block; text-decoration:none; }
+        .download-btn { background:#800; color:#0f0; padding:15px 40px; font-size:20px; border:4px solid #0f0; border-radius:8px; cursor:pointer; transition:0.3s; display:inline-block; text-decoration:none; margin:10px; }
         .download-btn:hover { background:#f00; transform:scale(1.08); text-shadow:0 0 20px #0f0; }
-        .card { background:#111; border:3px solid #0f0; padding:25px; margin:15px; border-radius:12px; box-shadow:0 0 20px rgba(0,255,0,0.3); }
+        .card { background:#111; border:3px solid #0f0; padding:20px; margin:15px; border-radius:8px; box-shadow:0 0 20px rgba(0,255,0,0.3); }
         .card:hover { box-shadow:0 0 40px rgba(0,255,0,0.6); transform:translateY(-5px); transition:0.3s; }
         h1 { font-size:48px; margin:20px 0; }
-        h2 { font-size:36px; margin:40px 0 20px 0; }
+        h2 { font-size:32px; margin:40px 0 20px 0; }
         h3 { color:#0f0; text-shadow:0 0 10px #0f0; }
-        p { font-size:18px; line-height:1.6; }
-        .grid { display:grid; grid-template-columns:repeat(auto-fit, minmax(300px,1fr)); gap:20px; }
-        pre { background:#111; padding:30px; border:2px solid #0f0; overflow:auto; max-height:400px; border-radius:8px; font-size:16px; }
-        #ranking { background:#111; padding:20px; border:3px solid #0f0; border-radius:8px; }
-        #ranking ol { font-size:22px; line-height:2.5; }
-        #ranking li { margin:10px 0; }
+        p { font-size:16px; line-height:1.6; }
+        .grid { display:grid; grid-template-columns:repeat(auto-fit, minmax(250px,1fr)); gap:20px; }
+        pre { background:#111; padding:20px; border:2px solid #0f0; overflow:auto; font-size:14px; border-radius:8px; }
+        table { width:100%; border-collapse:collapse; font-size:14px; }
+        table th, table td { padding:12px; border:2px solid #0f0; text-align:left; }
+        table th { background:#111; color:#0f0; }
+        .tutorial { background:#111; border:3px solid #0f0; padding:20px; margin:20px 0; border-radius:8px; }
+        .tutorial h4 { color:#ffff00; margin:15px 0 10px 0; }
+        .review { background:#111; border-left:6px solid #0f0; padding:20px; margin:15px 0; border-radius:4px; }
+        .rating { color:#ffff00; font-size:18px; }
+        .input-field { background:#111; border:2px solid #0f0; color:#0f0; padding:10px; margin:10px 0; border-radius:4px; font-family:'Press Start 2P'; font-size:14px; width:100%; max-width:400px; }
+        .login-form { background:#111; border:3px solid #0f0; padding:30px; margin:20px auto; border-radius:8px; max-width:500px; }
+        .faq-item { background:#111; border:3px solid #0f0; padding:20px; margin:15px 0; border-radius:8px; cursor:pointer; }
+        .faq-item h4 { color:#ffff00; margin-bottom:10px; }
+        .faq-answer { display:none; margin-top:15px; color:#0f0; }
+        .faq-item.active .faq-answer { display:block; }
+        .reward { background:linear-gradient(135deg,#ff0 0%,#f00 100%); color:#000; padding:20px; margin:15px 0; border-radius:8px; font-weight:bold; }
+        .stat-box { background:#111; border:3px solid #0f0; padding:20px; margin:15px; border-radius:8px; text-align:center; }
+        .stat-value { font-size:32px; color:#ffff00; }
         footer { text-align:center; padding:40px 20px; background:#111; border-top:3px solid #0f0; margin-top:60px; }
-        .qr-code { margin:30px 0; }
-        .qr-code img { border:3px solid #0f0; padding:10px; background:#111; border-radius:8px; }
+        @media (max-width:768px) { h1 { font-size:32px; } h2 { font-size:24px; } nav a { font-size:12px; margin:0 5px; } }
     </style>
 </head>
 <body>
 
     <!-- NAVEGAÇÃO -->
     <nav>
-        <a href="#home">🏠 HOME</a>
-        <a href="#game">🎰 JOGO</a>
-        <a href="#features">⚙️ RECURSOS</a>
-        <a href="#changelog">📝 CHANGELOG</a>
-        <a href="#leaderboard">🏆 RANKING</a>
-        <a href="#about">ℹ️ SOBRE</a>
+        <a onclick="showSection('home')">🏠</a>
+        <a onclick="showSection('game')">🎰</a>
+        <a onclick="showSection('howtoplay')">📖</a>
+        <a onclick="showSection('gallery')">🎨</a>
+        <a onclick="showSection('reviews')">💬</a>
+        <a onclick="showSection('stats')">📊</a>
+        <a onclick="showSection('sounds')">🎵</a>
+        <a onclick="showSection('login')">🔐</a>
+        <a onclick="showSection('rewards')">🎁</a>
+        <a onclick="showSection('faq')">❓</a>
+        <a onclick="showSection('features')">⚙️</a>
     </nav>
 
-    <!-- HERO -->
-    <section id="home" class="hero">
-        <h1 class="glitch">🧟‍♂️ GROKZOMBORG SLOTS v4.0 🧟‍♂️</h1>
-        <p style="font-size:28px; color:#ff0; text-shadow:0 0 20px #ff0;">O VÍRUS QUE PAGA • INFECÇÃO GLOBAL ATIVADA</p>
-        <p style="font-size:20px; color:#0f0;">Jogo de slots zumbi cyberpunk altamente viciante</p>
-        <a href="#game" class="download-btn">▶️ JOGAR AGORA ▶️</a>
+    <!-- HOME -->
+    <section id="home" class="active">
+        <div class="hero">
+            <h1 class="glitch">🧟‍♂️ GROKZOMBORG SLOTS v4.0 🧟‍♂️</h1>
+            <p style="font-size:24px; color:#ff0; text-shadow:0 0 20px #ff0;">O VÍRUS QUE PAGA • INFECÇÃO GLOBAL ATIVADA</p>
+            <p style="font-size:16px; color:#0f0;">Jogo de slots zumbi cyberpunk altamente viciante</p>
+            <a onclick="showSection('game')" class="download-btn">▶️ JOGAR AGORA ▶️</a>
+        </div>
     </section>
 
     <!-- JOGO -->
     <section id="game">
         <h2 style="text-align:center;">🎮 JOGAR GROKZOMBORG</h2>
-        <p style="text-align:center; font-size:20px;">Clique abaixo para jogar o jogo completo:</p>
+        <p style="text-align:center;">Clique abaixo para jogar o jogo completo:</p>
         <div style="text-align:center; margin:40px 0;">
             <a href="grokzomborg.html" class="download-btn">⬇️ ABRIR JOGO ⬇️</a>
         </div>
-        <div style="text-align:center; margin:30px 0;">
-            <p style="font-size:18px; color:#ffff00;">📥 Ou faça o download do arquivo:</p>
-            <a href="grokzomborg.html" download="grokzomborg.html" class="download-btn" style="padding:15px 50px; font-size:20px;">💾 BAIXAR HTML</a>
+        <div style="text-align:center;">
+            <p style="font-size:16px; color:#ffff00;">📥 Ou faça o download:</p>
+            <a href="grokzomborg.html" download="grokzomborg.html" class="download-btn">💾 BAIXAR</a>
         </div>
-        <div class="qr-code" style="text-align:center;">
-            <p style="font-size:20px; color:#ffff00;">Compartilhe este QR Code:</p>
-            <img src="https://api.qrserver.com/v1/create-qr-code/?size=300x300&data=https://robisonnorlei-ship-it.github.io/-GROKZOMBORG---Slots-Infectados-v4.0/" alt="QR Code" width="300" height="300">
-            <p style="font-size:14px; color:#0f0;">ou acesse diretamente pelo repositório GitHub</p>
+    </section>
+
+    <!-- COMO JOGAR -->
+    <section id="howtoplay">
+        <h2 style="text-align:center;">📖 COMO JOGAR</h2>
+        <div class="tutorial">
+            <h3>1️⃣ COMEÇAR O JOGO</h3>
+            <h4>Abra o arquivo HTML</h4>
+            <p>Baixe grokzomborg.html e abra em qualquer navegador</p>
+            <h4>Saldo inicial: 1000 chips</h4>
+            <p>Comece a jogar e ganhe mais!</p>
+        </div>
+        <div class="tutorial">
+            <h3>2️⃣ DEFINIR APOSTA</h3>
+            <h4>Digite 1-500 chips</h4>
+            <p>Escolha quanto quer apostar. Maior aposta = maior prêmio!</p>
+        </div>
+        <div class="tutorial">
+            <h3>3️⃣ GIRAR OS RODILHOS</h3>
+            <h4>Clique em 🎰 GIRAR 🎰</h4>
+            <p>Observe os símbolos: 🧟 ☣ 🦠 ⭐</p>
+        </div>
+        <div class="tutorial">
+            <h3>4️⃣ SÍMBOLOS E PRÊMIOS</h3>
+            <p>🧟🧟🧟 = 50x | ☣☣☣ = 100x | 🦠🦠🦠 = 150x | 🎰🎰🎰 = 1000x | ⭐⭐⭐ = 20 FREE SPINS</p>
+        </div>
+        <div class="tutorial">
+            <h3>5️⃣ AUTO-SPIN</h3>
+            <h4>Clique "AUTO x10"</h4>
+            <p>10 giros automáticos contínuos</p>
+        </div>
+    </section>
+
+    <!-- GALERIA -->
+    <section id="gallery">
+        <h2 style="text-align:center;">🎨 GALERIA</h2>
+        <div class="grid">
+            <div class="card" style="text-align:center;">
+                <h3>Tela Inicial</h3>
+                <p style="font-size:32px;">🧟 ☣ 🦠</p>
+            </div>
+            <div class="card" style="text-align:center;">
+                <h3>Girando</h3>
+                <p style="font-size:32px;">🎰 🎰 🎰</p>
+            </div>
+            <div class="card" style="text-align:center;">
+                <h3>Ganhou!</h3>
+                <p style="font-size:32px; color:#ffff00;">🧟 🧟 🧟</p>
+            </div>
+            <div class="card" style="text-align:center;">
+                <h3>Free Spins</h3>
+                <p style="font-size:32px; color:#ffff00;">⭐ ⭐ ⭐</p>
+            </div>
+            <div class="card" style="text-align:center;">
+                <h3>JACKPOT</h3>
+                <p style="font-size:32px; color:#ff0;">🎰🎰🎰</p>
+            </div>
+            <div class="card" style="text-align:center;">
+                <h3>Mobile</h3>
+                <p style="font-size:32px;">📱</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- REVIEWS -->
+    <section id="reviews">
+        <h2 style="text-align:center;">💬 AVALIAÇÕES</h2>
+        <div class="review">
+            <div class="rating">⭐⭐⭐⭐⭐</div>
+            <h4>ZOMBIE_KING</h4>
+            <p>"Melhor jogo de slots! Ganhei 1.2M em uma semana. Viciante!"</p>
+        </div>
+        <div class="review">
+            <div class="rating">⭐⭐⭐⭐⭐</div>
+            <h4>NEON_DEATH</h4>
+            <p>"Interface incrível! Efeitos cyberpunk perfeitos. Recomendo!"</p>
+        </div>
+        <div class="review">
+            <div class="rating">⭐⭐⭐⭐</div>
+            <h4>GROK_INFECTED</h4>
+            <p>"Muito bom! Gostaria de mais temas. Mesmo assim excelente!"</p>
+        </div>
+        <div class="review">
+            <div class="rating">⭐⭐⭐⭐⭐</div>
+            <h4>CYBER_PLAGUE</h4>
+            <p>"Funciona perfeito em mobile! Viciante demais!"</p>
+        </div>
+    </section>
+
+    <!-- ESTATÍSTICAS -->
+    <section id="stats">
+        <h2 style="text-align:center;">📊 ESTATÍSTICAS</h2>
+        <div class="grid">
+            <div class="stat-box">
+                <h3>👥 Jogadores</h3>
+                <div class="stat-value">2,847</div>
+                <p style="font-size:12px;">Online agora</p>
+            </div>
+            <div class="stat-box">
+                <h3>🎰 Giros</h3>
+                <div class="stat-value">1,284,506</div>
+                <p style="font-size:12px;">No total</p>
+            </div>
+            <div class="stat-box">
+                <h3>💰 Prêmios</h3>
+                <div class="stat-value">47M</div>
+                <p style="font-size:12px;">Chips pagos</p>
+            </div>
+            <div class="stat-box">
+                <h3>🏆 Jackpot</h3>
+                <div class="stat-value">1M</div>
+                <p style="font-size:12px;">Maior prêmio</p>
+            </div>
+        </div>
+        <h3 style="text-align:center; margin-top:40px;">🎲 PROBABILIDADES</h3>
+        <table>
+            <tr><th>Combinação</th><th>Chance</th><th>Prêmio</th></tr>
+            <tr><td>🧟🧟🧟</td><td>12%</td><td>50x</td></tr>
+            <tr><td>☣☣☣</td><td>10%</td><td>100x</td></tr>
+            <tr><td>🦠🦠🦠</td><td>8%</td><td>150x</td></tr>
+            <tr><td>⭐⭐⭐</td><td>5%</td><td>20 Spins</td></tr>
+            <tr><td>🎰🎰🎰</td><td>5%</td><td>1000x</td></tr>
+            <tr><td>Mistos</td><td>15%</td><td>5x</td></tr>
+            <tr><td>Perda</td><td>45%</td><td>0x</td></tr>
+        </table>
+    </section>
+
+    <!-- SONS -->
+    <section id="sounds">
+        <h2 style="text-align:center;">🎵 EFEITOS SONOROS</h2>
+        <p style="text-align:center;">Clique para ouvir:</p>
+        <div class="grid">
+            <div class="card">
+                <h3>🎰 Giro</h3>
+                <button class="download-btn" onclick="alert('🎵 Som de giro!')">Ouvir</button>
+            </div>
+            <div class="card">
+                <h3>🎉 Vitória</h3>
+                <button class="download-btn" onclick="alert('🎵 Som de vitória!')">Ouvir</button>
+            </div>
+            <div class="card">
+                <h3>💥 Jackpot</h3>
+                <button class="download-btn" onclick="alert('🎵 JACKPOT!!!')">Ouvir</button>
+            </div>
+            <div class="card">
+                <h3>⭐ Free Spin</h3>
+                <button class="download-btn" onclick="alert('🎵 Free spin!')">Ouvir</button>
+            </div>
+        </div>
+    </section>
+
+    <!-- LOGIN -->
+    <section id="login">
+        <h2 style="text-align:center;">🔐 LOGIN/CADASTRO</h2>
+        <div class="login-form">
+            <h3 style="text-align:center; color:#0f0;">Faça Login</h3>
+            <input type="text" id="username" class="input-field" placeholder="Username" maxlength="20">
+            <input type="password" id="password" class="input-field" placeholder="Senha" maxlength="20">
+            <div style="text-align:center;">
+                <button class="download-btn" onclick="login()">🔓 LOGIN</button>
+                <button class="download-btn" onclick="signup()">📝 CADASTRO</button>
+            </div>
+            <p style="text-align:center; margin-top:20px; font-size:12px; color:#ff0;">⚠️ Versão beta</p>
+        </div>
+        <div id="loginSuccess" style="display:none; text-align:center;">
+            <h3 style="color:#0f0;">✅ BEM-VINDO!</h3>
+            <p style="font-size:16px; color:#ffff00;" id="welcomeMsg"></p>
+            <button class="download-btn" onclick="logout()">🚪 LOGOUT</button>
+        </div>
+    </section>
+
+    <!-- REWARDS -->
+    <section id="rewards">
+        <h2 style="text-align:center;">🎁 RECOMPENSAS</h2>
+        <div class="reward">🎁 LOGIN DIÁRIO: +50 chips</div>
+        <div class="reward">🎯 PRIMEIRO GIRO: +100 chips</div>
+        <div class="reward">⭐ 10 GIROS SEGUIDOS: +200 chips</div>
+        <div class="reward">💰 GANHAR 1000+: +250 bonus</div>
+        <div class="reward">🏆 TOP 100: +500 + Medalha</div>
+        <div class="reward">👥 CONVIDAR AMIGO: +300 ambos</div>
+        <div class="reward">🎉 SEGUNDA-FEIRA: +1000 chips</div>
+        <div class="reward">🌟 VIP MENSAL: +2000 chips</div>
+    </section>
+
+    <!-- FAQ -->
+    <section id="faq">
+        <h2 style="text-align:center;">❓ FAQ</h2>
+        <div class="faq-item" onclick="toggleFAQ(this)">
+            <h4>❓ É seguro?</h4>
+            <div class="faq-answer"><p>Sim! 100% seguro. HTML puro que roda localmente.</p></div>
+        </div>
+        <div class="faq-item" onclick="toggleFAQ(this)">
+            <h4>❓ Posso jogar offline?</h4>
+            <div class="faq-answer"><p>Sim! Funciona completamente offline após baixar.</p></div>
+        </div>
+        <div class="faq-item" onclick="toggleFAQ(this)">
+            <h4>❓ O progresso é salvo?</h4>
+            <div class="faq-answer"><p>Sim durante a sessão. Reload reseta.</p></div>
+        </div>
+        <div class="faq-item" onclick="toggleFAQ(this)">
+            <h4>❓ Como compartilhar?</h4>
+            <div class="faq-answer"><p>Clique "ESPALHAR O VÍRUS" no jogo e compartilhe!</p></div>
+        </div>
+        <div class="faq-item" onclick="toggleFAQ(this)">
+            <h4>❓ Probabilidades?</h4>
+            <div class="faq-answer"><p>Veja a seção STATS. Jackpot = 5%</p></div>
+        </div>
+        <div class="faq-item" onclick="toggleFAQ(this)">
+            <h4>❓ Funciona mobile?</h4>
+            <div class="faq-answer"><p>Sim! 100% responsivo em todos os devices</p></div>
+        </div>
+        <div class="faq-item" onclick="toggleFAQ(this)">
+            <h4>❓ Limite de aposta?</h4>
+            <div class="faq-answer"><p>1 a 500 chips máximo por giro</p></div>
+        </div>
+        <div class="faq-item" onclick="toggleFAQ(this)">
+            <h4>❓ Como funciona free spin?</h4>
+            <div class="faq-answer"><p>Combine ⭐⭐⭐ para 20 giros grátis!</p></div>
         </div>
     </section>
 
     <!-- RECURSOS -->
     <section id="features">
-        <h2 style="text-align:center;">✨ RECURSOS DA INFECÇÃO</h2>
+        <h2 style="text-align:center;">⚙️ RECURSOS</h2>
         <div class="grid">
-            <div class="card">
-                <h3>🎰 Sistema de Slots</h3>
-                <p>3 rodilhos com símbolos virais (🧟 ☣ 🦠 ⭐)</p>
-            </div>
-            <div class="card">
-                <h3>💰 Apostas Personalizáveis</h3>
-                <p>De 1 até 500 chips. Controle total do jogo!</p>
-            </div>
-            <div class="card">
-                <h3>🎯 Multiplicadores Insanos</h3>
-                <p>Ganhe até 1000x sua aposta no JACKPOT!</p>
-            </div>
-            <div class="card">
-                <h3>⭐ 20 Free Spins</h3>
-                <p>Giros grátis com bônus especiais</p>
-            </div>
-            <div class="card">
-                <h3>🔄 Auto-Spin</h3>
-                <p>10 giros automáticos contínuos</p>
-            </div>
-            <div class="card">
-                <h3>📤 Spread the Virus</h3>
-                <p>Compartilhe o jogo com 1 clique!</p>
-            </div>
-            <div class="card">
-                <h3>🌙 Dark Mode</h3>
-                <p>Interface cyberpunk escura e futurista</p>
-            </div>
-            <div class="card">
-                <h3>💻 Funciona em Tudo</h3>
-                <p>Desktop, Tablet, Mobile - 100% responsivo</p>
-            </div>
-            <div class="card">
-                <h3>🚀 Sem Instalação</h3>
-                <p>Arquivo HTML puro - abra e jogue!</p>
-            </div>
-        </div>
-    </section>
-
-    <!-- TABELA DE PAGAMENTOS -->
-    <section style="max-width:1200px; margin:60px auto;">
-        <h2 style="text-align:center;">💸 TABELA DE PAGAMENTOS</h2>
-        <table style="width:100%; border-collapse:collapse; font-size:18px;">
-            <tr style="background:#111; border:2px solid #0f0;">
-                <th style="padding:15px; border:2px solid #0f0; color:#0f0;">Combinação</th>
-                <th style="padding:15px; border:2px solid #0f0; color:#0f0;">Multiplicador</th>
-                <th style="padding:15px; border:2px solid #0f0; color:#0f0;">Descrição</th>
-            </tr>
-            <tr style="background:#000; border:2px solid #0f0;">
-                <td style="padding:15px; border:2px solid #0f0;">🧟🧟🧟</td>
-                <td style="padding:15px; border:2px solid #0f0; color:#ffff00;">50x</td>
-                <td style="padding:15px; border:2px solid #0f0;">Horda Zumbi</td>
-            </tr>
-            <tr style="background:#1a1a1a; border:2px solid #0f0;">
-                <td style="padding:15px; border:2px solid #0f0;">☣☣☣</td>
-                <td style="padding:15px; border:2px solid #0f0; color:#ffff00;">100x</td>
-                <td style="padding:15px; border:2px solid #0f0;">Contaminação Extrema</td>
-            </tr>
-            <tr style="background:#000; border:2px solid #0f0;">
-                <td style="padding:15px; border:2px solid #0f0;">🦠🦠🦠</td>
-                <td style="padding:15px; border:2px solid #0f0; color:#ffff00;">150x</td>
-                <td style="padding:15px; border:2px solid #0f0;">Surto Viral</td>
-            </tr>
-            <tr style="background:#1a1a1a; border:2px solid #0f0;">
-                <td style="padding:15px; border:2px solid #0f0;">🎰🎰🎰</td>
-                <td style="padding:15px; border:2px solid #0f0; color:#ff0000;">1000x</td>
-                <td style="padding:15px; border:2px solid #0f0;">JACKPOT!</td>
-            </tr>
-            <tr style="background:#000; border:2px solid #0f0;">
-                <td style="padding:15px; border:2px solid #0f0;">⭐⭐⭐</td>
-                <td style="padding:15px; border:2px solid #0f0; color:#ffff00;">20 Spins</td>
-                <td style="padding:15px; border:2px solid #0f0;">Free Spins</td>
-            </tr>
-        </table>
-    </section>
-
-    <!-- CHANGELOG -->
-    <section id="changelog">
-        <h2 style="text-align:center;">📝 CHANGELOG</h2>
-        <pre>v4.0 - 02/07/2026
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-✅ Sistema de Slots completo
-✅ 3 Rodilhos com símbolos virais
-✅ Multiplicadores de até 1000x
-✅ 20 Free Spins com bônus
-✅ Auto-spin (10 giros)
-✅ Botão "Espalhar o Vírus"
-✅ Interface Cyberpunk Dark
-✅ Totalmente responsivo
-✅ Sem dependências externas
-✅ 100% HTML + CSS + JS puro
-
-v3.0 - 25/06/2026
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-✅ Beta público
-✅ Primeiros símbolos virais
-✅ Sistema de apostas básico
-
-v2.0 - 18/06/2026
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-✅ Mecânica de slots
-
-v1.0 - 10/06/2026
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-✅ Lançamento inicial</pre>
-    </section>
-
-    <!-- LEADERBOARD -->
-    <section id="leaderboard">
-        <h2 style="text-align:center;">🏆 RANKING GLOBAL</h2>
-        <div id="ranking">
-            <ol style="font-size:22px; line-height:2.5;">
-                <li style="color:#ff0;">🥇 ZOMBIE_KING — 1.284.750 💰</li>
-                <li style="color:#ff0;">🥈 FACEBOOK_7X9 — 987.420 💰</li>
-                <li style="color:#ff0;">🥉 GROK_INFECTED — 874.300 💰</li>
-                <li style="color:#0f0;">4. NEON_DEATH — 756.890 💰</li>
-                <li style="color:#0f0;">5. VIRUS_MASTER — 642.105 💰</li>
-                <li style="color:#0f0;">6. APOCALYPSE_NOW — 598.234 💰</li>
-                <li style="color:#0f0;">7. DIGITAL_CHAOS — 523.876 💰</li>
-                <li style="color:#0f0;">8. CYBER_PLAGUE — 498.123 💰</li>
-            </ol>
-            <p style="text-align:center; margin-top:30px; font-size:16px; color:#ffff00;">
-                🔄 Ranking atualizado a cada 24 horas<br>
-                🎮 Envie seus scores pelo jogo
-            </p>
-        </div>
-    </section>
-
-    <!-- SOBRE -->
-    <section id="about">
-        <h2 style="text-align:center;">ℹ️ SOBRE O VÍRUS</h2>
-        <div style="max-width:900px; margin:auto; background:#111; border:3px solid #0f0; padding:40px; border-radius:8px;">
-            <p style="font-size:18px; line-height:2; text-align:justify;">
-                <strong style="color:#ffff00;">GrokZomborg Slots</strong> é um jogo de cassino zumbi <strong style="color:#ff0;">cyberpunk</strong> altamente viciante, desenvolvido com pura criatividade e caos digital.
-            </p>
-            <p style="font-size:18px; line-height:2; text-align:justify; margin-top:20px;">
-                O jogo combina a emoção dos slots tradicionais com uma temática pós-apocalíptica de zumbis e vírus, criando uma experiência única e imersiva. Com símbolos virais (🧟 ☣ 🦠), multiplicadores insanos e a possibilidade de ganhar até <strong style="color:#ffff00;">1000x</strong> sua aposta, GrokZomborg é o jogo perfeito para quem busca adrenalina digital.
-            </p>
-            <p style="font-size:18px; line-height:2; text-align:justify; margin-top:20px;">
-                ⚙️ <strong>Tecnologia:</strong> HTML5 + CSS3 + JavaScript puro<br>
-                🎮 <strong>Plataforma:</strong> Web (Desktop, Mobile, Tablet)<br>
-                📦 <strong>Tamanho:</strong> Arquivo único HTML (~21KB)<br>
-                🚀 <strong>Performance:</strong> Extremamente otimizado<br>
-                ❌ <strong>Dependências:</strong> NENHUMA
-            </p>
-            <p style="font-size:16px; margin-top:30px; color:#ff0; text-align:center;">
-                Feito com ❤️ pelo caos digital em 2026
-            </p>
+            <div class="card"><h3>🎰 Slots</h3><p>3 rodilhos com símbolos virais</p></div>
+            <div class="card"><h3>💰 Apostas</h3><p>1-500 chips personalizáveis</p></div>
+            <div class="card"><h3>🎯 Multiplicadores</h3><p>Até 1000x no JACKPOT</p></div>
+            <div class="card"><h3>⭐ Free Spins</h3><p>20 giros grátis</p></div>
+            <div class="card"><h3>🔄 Auto-Spin</h3><p>10 giros automáticos</p></div>
+            <div class="card"><h3>📤 Compartilhar</h3><p>1 clique para espalhar</p></div>
+            <div class="card"><h3>🌙 Dark Mode</h3><p>Interface cyberpunk</p></div>
+            <div class="card"><h3>📱 Responsivo</h3><p>Funciona em tudo</p></div>
+            <div class="card"><h3>⚡ Sem instalação</h3><p>HTML puro</p></div>
+            <div class="card"><h3>🔐 Seguro</h3><p>100% local</p></div>
+            <div class="card"><h3>🌍 Multi-idioma</h3><p>Português + mais</p></div>
+            <div class="card"><h3>🎵 Som</h3><p>Áudio imersivo</p></div>
         </div>
     </section>
 
     <!-- FOOTER -->
     <footer>
-        <h3 style="color:#0f0; margin-bottom:20px;">🧟‍♂️ GROKZOMBORG SLOTS v4.0 🧟‍♂️</h3>
-        <p style="margin:10px 0;">© 2026 Robison Norlei | Todos os direitos reservados</p>
-        <p style="margin:10px 0; font-size:16px;">
-            <a href="https://github.com/robisonnorlei-ship-it/-GROKZOMBORG---Slots-Infectados-v4.0" style="color:#0f0; text-decoration:none;">GitHub</a> | 
-            <a href="#" style="color:#0f0; text-decoration:none;">Discord</a> | 
-            <a href="#" style="color:#0f0; text-decoration:none;">Twitter</a>
-        </p>
-        <p style="margin-top:20px; font-size:14px; color:#ffff00;">
+        <h3 style="color:#0f0;">🧟‍♂️ GROKZOMBORG v4.0 🧟‍♂️</h3>
+        <p>© 2026 Robison Norlei</p>
+        <p style="margin-top:20px; font-size:12px; color:#ffff00;">
             Aviso: Uma vez infectado, é difícil parar de girar. 🦠
         </p>
     </footer>
 
     <script>
-        // Scroll suave
-        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-            anchor.addEventListener('click', function (e) {
-                e.preventDefault();
-                const target = document.querySelector(this.getAttribute('href'));
-                if (target) {
-                    target.scrollIntoView({
-                        behavior: 'smooth',
-                        block: 'start'
-                    });
-                }
-            });
-        });
+        function showSection(id) {
+            document.querySelectorAll('section').forEach(s => s.classList.remove('active'));
+            document.getElementById(id).classList.add('active');
+            window.scrollTo(0, 0);
+        }
+        function toggleFAQ(el) { el.classList.toggle('active'); }
+        function login() {
+            const u = document.getElementById('username').value;
+            if (u) {
+                document.querySelector('.login-form').style.display = 'none';
+                document.getElementById('loginSuccess').style.display = 'block';
+                document.getElementById('welcomeMsg').textContent = `Bem-vindo, ${u}!`;
+            }
+        }
+        function signup() {
+            const u = document.getElementById('username').value;
+            if (u) alert(`✅ Cadastro realizado!`);
+        }
+        function logout() {
+            document.querySelector('.login-form').style.display = 'block';
+            document.getElementById('loginSuccess').style.display = 'none';
+            document.getElementById('username').value = '';
+            document.getElementById('password').value = '';
+        }
     </script>
 </body>
 </html>
